@@ -307,5 +307,111 @@ public class Solution {
         return dp[n];
     }
 
+    public int NumberOf1(int n) {
+        int count = 0;
+        while(n != 0) {
+            n &= n - 1;
+            count++;
+        }
+        return count;
+    }
+
+    public double Power1(double base, int exponent) {
+        double a = 1;
+        int n = Math.abs(exponent);
+        while (n-- > 0) {
+            a *= base;
+        }
+        if(exponent > 0) return a;
+        else return 1/a;
+    }
+    public double Power2(double base, int exponent) {
+        if(exponent < 0) {
+            int n = Math.abs(exponent);
+            if(n == 1) return base;
+            if(n % 2 == 1) {
+                return 1 / (base * Power2((base * base), n/2));
+            }else {
+                return 1 / Power2((base * base), n/2);
+            }
+        }
+        else {
+            if(exponent == 0) return 1;
+            if(exponent == 1) return base;
+            if(exponent % 2 == 1) {
+                return base * Power2((base * base), exponent/2);
+            }else {
+                return Power2((base * base), exponent/2);
+            }
+        }
+    }
+
+    public void print1ToMaxOfNDigits(int n) {
+        char[] num = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        char[] out = new char[n];
+        printNDigits(0, out, num);
+    }
+    private void printNDigits(int j, char[] out, char[] num) {
+        if(j < out.length) {
+            for(int i = 0; i < num.length; i++) {
+                out[j] = num[i];
+                printNDigits(j + 1, out, num);
+            }
+            return;
+        }
+        for(int i = 0; i < out.length; i++){
+            if(out[i] != '0') {
+                for(int l = i; l < out.length; l++) {
+                    System.out.print(out[l]);
+                }
+                System.out.println();
+                break;
+            }
+        }
+    }
+
+    public ListNode deleteDuplication(ListNode pHead) {
+        ListNode temp = pHead;
+        ListNode next = temp.next;
+        if(next == null) return pHead;
+        if(pHead.val != pHead.next.val) {
+            while(next.next != null) {
+                while(next.next != null && temp.next.val != next.next.val) {
+                    temp = temp.next;
+                    next = next.next;
+                }
+                if(next.next == null) return pHead;
+                while(next.next.next != null && next.val == next.next.next.val) {
+                    next = next.next;
+                }
+                if(next.next.next == null) {
+                    temp.next = null;
+                    return pHead;
+                }else {
+                    temp.next = next.next.next;
+                    next = temp.next;
+                }
+            }
+        }
+        else {
+            while(next.next != null && temp.val == next.next.val) {
+                next = next.next;
+            }
+            if(next.next == null) return null;
+            pHead = next.next;
+            deleteDuplication(pHead);
+        }
+        System.out.print("异常");
+        return null;
+    }
+    public ListNode deleteDuplication(){
+        ListNode node = new ListNode(1);
+        node.next = new ListNode(1);
+        node.next.next = new ListNode(2);
+        node.next.next.next = new ListNode(3);
+        node.next.next.next.next = new ListNode(3);
+        node.next.next.next.next.next = new ListNode(4);
+        return deleteDuplication(node);
+    }
 }
 

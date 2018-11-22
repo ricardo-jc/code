@@ -1,3 +1,4 @@
+import aimOffer.ListNode;
 import aimOffer.Solution;
 
 public class Main {
@@ -30,6 +31,12 @@ public class Main {
 
 //        System.out.println(solution.movingCount(10, 1, 100));
 
-        System.out.println(solution.integerBreak(10));
+//        System.out.println(solution.integerBreak(10));
+
+//        System.out.println(solution.Power2(2.0, 10));
+
+//        solution.print1ToMaxOfNDigits(2);
+
+        System.out.println(solution.deleteDuplication());
     }
 }
