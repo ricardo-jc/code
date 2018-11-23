@@ -371,47 +371,50 @@ public class Solution {
     }
 
     public ListNode deleteDuplication(ListNode pHead) {
+        if(pHead == null || pHead.next == null) return pHead;
         ListNode temp = pHead;
         ListNode next = temp.next;
-        if(next == null) return pHead;
-        if(pHead.val != pHead.next.val) {
-            while(next.next != null) {
-                while(next.next != null && temp.next.val != next.next.val) {
-                    temp = temp.next;
-                    next = next.next;
-                }
-                if(next.next == null) return pHead;
-                while(next.next.next != null && next.val == next.next.next.val) {
-                    next = next.next;
-                }
-                if(next.next.next == null) {
-                    temp.next = null;
-                    return pHead;
-                }else {
-                    temp.next = next.next.next;
-                    next = temp.next;
-                }
+        if(temp.val != next.val) {
+            while(next.next != null && temp.next.val != next.next.val) {
+                temp = temp.next;
+                next = next.next;
             }
+            temp.next = deleteDuplication(next);
+            return pHead;
         }
         else {
             while(next.next != null && temp.val == next.next.val) {
                 next = next.next;
             }
-            if(next.next == null) return null;
             pHead = next.next;
-            deleteDuplication(pHead);
+            return deleteDuplication(pHead);
         }
-        System.out.print("异常");
-        return null;
     }
     public ListNode deleteDuplication(){
         ListNode node = new ListNode(1);
         node.next = new ListNode(1);
         node.next.next = new ListNode(2);
         node.next.next.next = new ListNode(3);
-        node.next.next.next.next = new ListNode(3);
+        node.next.next.next.next = new ListNode(4);
         node.next.next.next.next.next = new ListNode(4);
+        System.out.println(node);
         return deleteDuplication(node);
+    }
+
+    public boolean match(char[] str, char[] pattern)
+    {
+        for(int i = 0; i < str.length; i++) {
+            if(pattern[i] == '.') continue;
+            else if(pattern[i] == str[i]) continue;
+            else {
+                for(int j = i; j < pattern.length; j++) {
+                    if(pattern[j] == '*') {
+
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
 
