@@ -1,5 +1,4 @@
-import aimOffer.ListNode;
-import aimOffer.Solution;
+package aimOffer;
 
 public class Main {
 
@@ -37,6 +36,15 @@ public class Main {
 
 //        solution.print1ToMaxOfNDigits(2);
 
-        System.out.println(solution.deleteDuplication());
+//        System.out.println(solution.deleteDuplication());
+//        char[] str = {'a','b'};
+//        char[] pattern = {'a','b','.','*'};
+//        System.out.println(solution.match(str, pattern));
+
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        System.out.println(head);
     }
 }

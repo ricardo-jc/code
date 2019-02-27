@@ -403,18 +403,133 @@ public class Solution {
 
     public boolean match(char[] str, char[] pattern)
     {
-        for(int i = 0; i < str.length; i++) {
-            if(pattern[i] == '.') continue;
-            else if(pattern[i] == str[i]) continue;
-            else {
-                for(int j = i; j < pattern.length; j++) {
-                    if(pattern[j] == '*') {
-
-                    }
-                }
-            }
+        return match_m(str, pattern, 0, 0);
+    }
+    private boolean match_e(char[] str, char[] pattern, int a,int b){
+        if(a >= str.length) return false;
+        return str[a] == pattern[b] || pattern[b] == '.';
+    }
+    private boolean match_m(char[] str, char[] pattern, int i, int j){
+        if(j >= pattern.length) {
+            return i == str.length && j == pattern.length;
         }
-        return false;
+        if(j < pattern.length - 1 && pattern[j + 1] == '*') {
+            return match_m(str, pattern, i, j + 2)
+                    || (match_e(str, pattern, i, j) && match_m(str, pattern, i + 1, j + 2))
+                    || (match_e(str, pattern, i, j) && match_m(str, pattern, i + 1, j));
+        }
+        else return match_e(str, pattern, i, j) && match_m(str, pattern, i + 1, j + 1) ;
+    }
+
+    public boolean match2(char[] str, char[] pattern) {
+
+        int m = str.length, n = pattern.length;
+        boolean[][] dp = new boolean[m + 1][n + 1];
+
+        dp[0][0] = true;
+        for (int i = 1; i <= n; i++)
+            if (pattern[i - 1] == '*')
+                dp[0][i] = dp[0][i - 2];
+
+        for (int i = 1; i <= m; i++)
+            for (int j = 1; j <= n; j++)
+                if (str[i - 1] == pattern[j - 1] || pattern[j - 1] == '.')
+                    dp[i][j] = dp[i - 1][j - 1];
+                else if (pattern[j - 1] == '*')
+                    if (pattern[j - 2] == str[i - 1] || pattern[j - 2] == '.') {
+                        dp[i][j] |= dp[i][j - 1]; // a* counts as single a
+                        dp[i][j] |= dp[i - 1][j]; // a* counts as multiple a
+                        dp[i][j] |= dp[i][j - 2]; // a* counts as empty
+                    } else
+                        dp[i][j] = dp[i][j - 2];   // a* only counts as empty
+
+        return dp[m][n];
+    }
+
+    public boolean isNumeric(char[] str) {
+        int i = 0;
+        boolean hasDot = false;
+        boolean hasE = false;
+        if(str[0] == '+' || str[0] == '-') i++;
+        for(; i < str.length; i++) {
+            if(isNum(str[i])) continue;
+            else if(str[i] == '.' && !hasDot) {
+                hasDot = true;
+            }
+            else if((str[i] == 'E' || str[i] == 'e') && !hasE) {
+                hasE = true;
+                hasDot = true;
+                if(i + 1 < str.length && (str[i + 1] == '+' || str[i + 1] == '-')) i++;
+                if(!(i + 1 < str.length && isNum(str[i + 1]))) return false;
+            }
+            else return false;
+        }
+        return true;
+    }
+    private boolean isNum(char c) {
+        return c >= '0' && c <= '9';
+    }
+
+    public void reOrderArray(int[] nums) {
+        int oddNum = 0;
+        for(int num:nums) {
+            if(num % 2 != 0) oddNum++;
+        }
+        int even = oddNum;
+        int i = 0;
+        int[] copy = nums.clone();
+        for(int num:copy) {
+            if(num % 2 == 0) nums[even++] = num;
+            else nums[i++] = num;
+        }
+    }
+
+    public ListNode FindKthToTail(ListNode head,int k) {
+        if(head == null) return null;
+        int n = 1;
+        ListNode point = head;
+        while(point.next != null) {
+            n++;
+            point = point.next;
+        }
+        point = head;
+        if(n < k) return null;
+        for(int i = 0; i < n - k; i++) {
+            point = point.next;
+        }
+        return point;
+    }
+
+    public ListNode EntryNodeOfLoop(ListNode pHead) {
+        if(pHead == null || pHead.next == null) return null;
+        ListNode fast = pHead, slow = pHead;
+        do {
+            fast = fast.next.next;
+            slow = slow.next;
+        }while(fast != slow);
+        fast = pHead;
+        while(fast != slow){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return fast;
+    }
+
+    public ListNode ReverseList(ListNode head) {
+        if(head == null) return null;
+        ListNode point = head;
+        List<ListNode> nodes = new ArrayList<>();
+        nodes.add(point);
+        while(point.next != null) {
+            point = point.next;
+            nodes.add(point);
+        }
+        ListNode tail = point;
+        for(int i = 1; i < nodes.size(); i++) {
+            point.next = nodes.get(nodes.size() - 1 - i);
+            point = point.next;
+        }
+        return tail;
     }
 }
 

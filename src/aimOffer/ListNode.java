@@ -9,11 +9,11 @@ public class ListNode {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(String.valueOf(this.val));
+        sb.append(this.val);
         ListNode t = this.next;
         while(t != null) {
             sb.append(" -> ");
-            sb.append(String.valueOf(t.val));
+            sb.append(t.val);
             t = t.next;
         }
         return sb.toString();
