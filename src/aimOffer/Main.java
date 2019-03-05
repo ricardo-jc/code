@@ -1,5 +1,7 @@
 package aimOffer;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -41,10 +43,13 @@ public class Main {
 //        char[] pattern = {'a','b','.','*'};
 //        System.out.println(solution.match(str, pattern));
 
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(2);
-        head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(4);
-        System.out.println(head);
+//        ListNode head = new ListNode(1);
+//        head.next = new ListNode(2);
+//        head.next.next = new ListNode(3);
+//        head.next.next.next = new ListNode(4);
+//        System.out.println(solution.ReverseList_iteration(head));
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);list.add(2);list.add(3);list.add(4);
+        System.out.println(list);
     }
 }

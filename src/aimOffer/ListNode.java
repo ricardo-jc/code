@@ -11,10 +11,12 @@ public class ListNode {
         StringBuilder sb = new StringBuilder();
         sb.append(this.val);
         ListNode t = this.next;
-        while(t != null) {
+        int depth = 1;
+        while(t != null && depth <= 100) {
             sb.append(" -> ");
             sb.append(t.val);
             t = t.next;
+            depth++;
         }
         return sb.toString();
     }
