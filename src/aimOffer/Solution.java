@@ -761,5 +761,36 @@ public class Solution {
         }
         return result;
     }
+
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        if(pRootOfTree == null) return null;
+        Convert(pRootOfTree.left);
+        Convert(pRootOfTree.right);
+        TreeNode max = MaxNode(pRootOfTree.left);
+        if(max != null) {
+            max.right = pRootOfTree;
+            pRootOfTree.left = max;
+        }
+        TreeNode min = MinNode(pRootOfTree.right);
+        if(min != null) {
+            min.left = pRootOfTree;
+            pRootOfTree.right = min;
+        }
+        return MinNode(pRootOfTree);
+    }
+    private TreeNode MinNode(TreeNode root) {
+        if(root == null) return null;
+        while(root.left != null) {
+            root = root.left;
+        }
+        return root;
+    }
+    private TreeNode MaxNode(TreeNode root) {
+        if(root == null) return null;
+        while(root.right != null) {
+            root = root.right;
+        }
+        return root;
+    }
 }
 
