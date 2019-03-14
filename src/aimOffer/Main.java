@@ -48,8 +48,21 @@ public class Main {
 //        head.next.next = new ListNode(3);
 //        head.next.next.next = new ListNode(4);
 //        System.out.println(solution.ReverseList_iteration(head));
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(1);list.add(2);list.add(3);list.add(4);
-        System.out.println(list);
+//        ArrayList<Integer> list = new ArrayList<>();
+//        list.add(1);list.add(2);list.add(3);list.add(4);
+//        System.out.println(list.subList(1,3));
+
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(3);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(2);
+        root.right = new TreeNode(7);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(9);
+        System.out.println(root);
+        System.out.println(solution.Last(root));
+//        System.out.println(solution.Serialize(root));
+//        System.out.println(solution.Serialize(solution.Deserialize(solution.Serialize(root))));
+//        System.out.println(solution.Deserialize("5,#,4,#,3,#,2,"));
     }
 }
