@@ -1,7 +1,5 @@
 package aimOffer;
 
-import sun.reflect.generics.tree.Tree;
-
 import java.util.*;
 
 public class Solution {
@@ -791,6 +789,78 @@ public class Solution {
             root = root.right;
         }
         return root;
+    }
+
+    public String Serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        if(root == null) sb.append("#,");
+        else {
+            sb.append(root.val).append(",");
+            sb.append(Serialize(root.left));
+            sb.append(Serialize(root.right));
+        }
+        return sb.toString();
+    }
+    public TreeNode Deserialize(String str) {
+        List<String> vals = Arrays.asList(str.split(","));
+        return Deserialize(vals);
+    }
+    private int index = -1;
+    private TreeNode Deserialize(List<String> vals) {
+        if(index >= vals.size() - 1 || "#".equals(vals.get(++index))) return null;
+        TreeNode root = new TreeNode(Integer.parseInt(vals.get(index)));
+        root.left = Deserialize(vals);
+        root.right = Deserialize(vals);
+        return root;
+    }
+
+    //二叉树的后续遍历
+    //递归
+    private ArrayList<Integer> vals = new ArrayList<>();
+    public ArrayList<Integer> Last(TreeNode root) {
+        if(root == null) return null;
+        Last(root.left);
+        Last(root.right);
+        vals.add(root.val);
+        return vals;
+    }
+    //迭代
+    public ArrayList<Integer> Last_iteration(TreeNode root) {
+        if(root == null) return null;
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> pre = new Stack<>();
+        TreeNode p = root;
+        do {
+            while(p != null) {
+                stack.add(p);
+                pre.add(p);
+                p = p.right;
+            }
+            p = pre.pop().left;
+        }while(pre != null);
+
+        return null;
+    }
+
+    public ArrayList<String> Permutation(String str) {
+        int count = 0;
+        int index = 0;
+        ArrayList<String> result = new ArrayList<>();
+        boolean[] choiced = new boolean[str.length()];
+        char[] chars = new char[str.length()];
+        for(int i = 0; i < str.length(); i++) { //第i个位置
+            for(int j = 0; j < str.length(); j++) { //选第j个字母填充
+                if(!choiced[j]) { //该字母可用
+                    chars[i] = str.charAt(j);
+                    choiced[j] = true;
+                    break;
+                }
+            }
+        }
+        return null;
+    }
+    private ArrayList<String> add(String str, boolean[] choiced){
+        return null;
     }
 }
 
