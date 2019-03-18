@@ -60,7 +60,8 @@ public class Main {
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(9);
         System.out.println(root);
-        System.out.println(solution.Last(root));
+//        System.out.println(solution.Last_iteration(root));
+        System.out.println(solution.Inorder_iteration(root));
 //        System.out.println(solution.Serialize(root));
 //        System.out.println(solution.Serialize(solution.Deserialize(solution.Serialize(root))));
 //        System.out.println(solution.Deserialize("5,#,4,#,3,#,2,"));
