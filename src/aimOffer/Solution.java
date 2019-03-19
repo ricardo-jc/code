@@ -1,5 +1,7 @@
 package aimOffer;
 
+import aimOffer.structures.*;
+
 import java.util.*;
 
 public class Solution {
@@ -731,7 +733,7 @@ public class Solution {
         return verify(sequence, first, cutIndex - 1) && verify(sequence, cutIndex, last - 1);
     }
 
-    ArrayList<ArrayList<Integer>> result_ = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> result_ = new ArrayList<>();
     ArrayList<Integer> array = new ArrayList<>();
     public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
         if(root == null) return result_;
@@ -814,125 +816,53 @@ public class Solution {
         return root;
     }
 
-    //二叉树的遍历
-    private ArrayList<Integer> vals = new ArrayList<>();
-    //前序遍历
-    //递归
-    public ArrayList<Integer> PreOrder_recursion(TreeNode root) {
-        if(root == null) return null;
-        vals.add(root.val);
-        PreOrder_recursion(root.left);
-        PreOrder_recursion(root.right);
-        return vals;
+    //字符串的排列
+    private ArrayList<String> permutation_res = new ArrayList<>();
+    public ArrayList<String> Permutation(String str) {
+        if(str == null || str.length() == 0) return permutation_res;
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        backtracking(chars, new boolean[str.length()], new StringBuilder());
+        return permutation_res;
     }
-    //迭代
-    public ArrayList<Integer> PreOrder_iteration(TreeNode root) {
-        if(root == null) return null;
-        TreeNode p = root;
-        Stack<TreeNode> pre = new Stack<>();
-        while(!pre.isEmpty() || p != null) {
-            while(p != null) {
-                pre.add(p);
-                vals.add(p.val);
-                p = p.left;
-            }
-            p = pre.pop().right;
+    private void backtracking(char[] chars, boolean[] choiced, StringBuilder sb){
+        if(chars.length == sb.length()) {
+            permutation_res.add(sb.toString());
+            return;
         }
-        return vals;
-    }
-    //中序遍历
-    //递归
-    public ArrayList<Integer> Inorder_recursion(TreeNode root) {
-        if(root == null) return null;
-        Inorder_recursion(root.left);
-        vals.add(root.val);
-        Inorder_recursion(root.right);
-        return vals;
-    }
-    //迭代
-    public ArrayList<Integer> Inorder_iteration(TreeNode root) {
-        if(root == null) return null;
-        Stack<TreeNode> pre = new Stack<>();
-        TreeNode p = root;
-        while(p != null || !pre.isEmpty()) {
-            while(p != null) {
-                pre.add(p);
-                p = p.left;
-            }
-            p = pre.pop();
-            vals.add(p.val);
-            p = p.right;
+        for(int i = 0; i < chars.length - 1; i++) {
+            if(choiced[i]) continue;
+            if(i > 0 && chars[i] == chars[i - 1] && !choiced[i - 1]) continue;
+            sb.append(chars[i]);
+            choiced[i] = true;
+            backtracking(chars, choiced, sb);
+            sb.deleteCharAt(sb.length() - 1);
+            choiced[i] = false;
         }
-        return vals;
-    }
-    //后续遍历
-    //递归
-    public ArrayList<Integer> Last(TreeNode root) {
-        if(root == null) return null;
-        Last(root.left);
-        Last(root.right);
-        vals.add(root.val);
-        return vals;
-    }
-    //迭代
-    public ArrayList<Integer> Last_iteration(TreeNode root) {
-        if(root == null) return null;
-        Stack<TreeNode> stack = new Stack<>();
-        Stack<TreeNode> pre = new Stack<>();
-        TreeNode p = root;
-        while(p != null || !pre.isEmpty()) {
-            while(p != null) {
-                pre.add(p);
-                stack.add(p);
-                p = p.right;
-            }
-            p = pre.pop().left;
-        }
-        while(!stack.isEmpty())
-            vals.add(stack.pop().val);
-        return vals;
-    }
-    public ArrayList<Integer> Postorder_iteration(TreeNode root) {
-        if(root == null) return null;
-        TreeNode pre = root;
-        Stack<TreeNode> stack = new Stack<>();
-        stack.add(root);
-        while(!stack.isEmpty()) {
-            TreeNode p = stack.peek();
-            if((p.left == null && p.right == null) || pre == p.left || pre == p.right) {
-                vals.add(p.val);
-                pre = stack.pop();
-                continue;
-            }
-            if(p.right != null){
-                stack.add(p.right);
-            }
-            if(p.left != null) {
-                stack.add(p.left);
-            }
-        }
-        return vals;
     }
 
-    public ArrayList<String> Permutation(String str) {
-        int count = 0;
-        int index = 0;
-        ArrayList<String> result = new ArrayList<>();
-        boolean[] choiced = new boolean[str.length()];
-        char[] chars = new char[str.length()];
-        for(int i = 0; i < str.length(); i++) { //第i个位置
-            for(int j = 0; j < str.length(); j++) { //选第j个字母填充
-                if(!choiced[j]) { //该字母可用
-                    chars[i] = str.charAt(j);
-                    choiced[j] = true;
-                    break;
-                }
-            }
+    //数组中出现次数超过一半的数字
+    public int MoreThanHalfNum_Solution(int [] array) {
+        int n = array.length / 2;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(Integer a : array) {
+            if(!map.containsKey(a.hashCode()))
+                map.put(a.hashCode(), 1);
+            else map.put(a.hashCode(), map.get(a.hashCode()) + 1);
+            if(map.get(a.hashCode()) > n) return a;
         }
-        return null;
+        return 0;
     }
-    private ArrayList<String> add(String str, boolean[] choiced){
-        return null;
+
+    //最小的k个数
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new ArrayList<>(k);
+        if(k > input.length) return list;
+        Arrays.sort(input);
+        for(int i = 0; i < k; i++) {
+                list.add(input[i]);
+        }
+        return list;
     }
 }
 

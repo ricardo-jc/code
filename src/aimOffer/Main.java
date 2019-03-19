@@ -52,18 +52,24 @@ public class Main {
 //        list.add(1);list.add(2);list.add(3);list.add(4);
 //        System.out.println(list.subList(1,3));
 
-        TreeNode root = new TreeNode(5);
-        root.left = new TreeNode(3);
-        root.left.left = new TreeNode(1);
-        root.left.right = new TreeNode(2);
-        root.right = new TreeNode(7);
-        root.right.left = new TreeNode(6);
-        root.right.right = new TreeNode(9);
-        System.out.println(root);
+//        TreeNode root = new TreeNode(5);
+//        root.left = new TreeNode(3);
+//        root.left.left = new TreeNode(1);
+//        root.left.right = new TreeNode(2);
+//        root.right = new TreeNode(7);
+//        root.right.left = new TreeNode(6);
+//        root.right.right = new TreeNode(9);
+//        System.out.println(root);
 //        System.out.println(solution.Last_iteration(root));
-        System.out.println(solution.Inorder_iteration(root));
+//        System.out.println(solution.Inorder_iteration(root));
 //        System.out.println(solution.Serialize(root));
 //        System.out.println(solution.Serialize(solution.Deserialize(solution.Serialize(root))));
 //        System.out.println(solution.Deserialize("5,#,4,#,3,#,2,"));
+
+        int[] a = new int[]{1,2,3,2,2,2,5,4,2};
+        System.out.println(solution.MoreThanHalfNum_Solution(a));
+
+
     }
+
 }
