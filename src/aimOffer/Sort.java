@@ -112,6 +112,28 @@ public class Sort {
         }
     }
 
+    //堆排序
+    public void heapSort(int[] input) {
+        adjust(input, 0, input.length - 1);
+    }
+    private void adjust(int[] input, int start, int end) {
+        if(input == null || start >= end) return;
+        for(int parent = (end + 1) / 2 - 1; parent >= start; parent--){
+            int left = 2 * (parent + 1) - 1;
+            int right = left + 1 > end ? -1 : left + 1;
+            if(right == -1 && input[left] > input[parent]){
+                swap(input, left, parent);
+            }
+            if(right != -1) {
+                int max = input[left] > input[right] ? left : right;
+                if(input[max] > input[parent])
+                    swap(input, max,parent);
+            }
+        }
+        swap(input, start, end);
+        adjust(input, start, end - 1);
+    }
+
     private void swap(int[] input, int i, int j) {
         if(i == j) return;
         int temp = input[i];
@@ -121,7 +143,7 @@ public class Sort {
         System.out.println();
     }
     public static void main(String[] args) {
-        int n = 10;
+        int n = 7;
         int[] a = new int[n];
         for(int i = 0; i < n;i++) {
             a[i] = (int) (Math.random() * 100);
@@ -134,7 +156,8 @@ public class Sort {
 //        new Sort().insertionSort(a);
 //        new Sort().selectionSort(a);
 //        new Sort().mergeSort(a);
-        new Sort().shellSort(a);
+//        new Sort().shellSort(a);
+        new Sort().heapSort(a);
     }
 
 }
