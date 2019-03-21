@@ -855,14 +855,54 @@ public class Solution {
     }
 
     //最小的k个数
-    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+    public ArrayList<Integer> GetLeastNumbers_Solution1(int[] input, int k) {
         ArrayList<Integer> list = new ArrayList<>(k);
-        if(k > input.length) return list;
-        Arrays.sort(input);
+        if(k > input.length || k <= 0) return list;
+        findKthSamllest(input, k);
         for(int i = 0; i < k; i++) {
                 list.add(input[i]);
         }
         return list;
+    }
+    private void findKthSamllest(int[] input, int k) {
+        int start = 0;
+        int end = input.length - 1;
+        while(true) {
+            int n = partition(input, start, end);
+            if(n == k - 1) break;
+            if(n < k - 1) start = n + 1;
+            else end = n - 1;
+        }
+    }
+    private int partition(int[] input, int start, int end) {
+        int i = start;
+        int j = end + 1;
+        while(true) {
+            while(i < end && input[++i] < input[start]);
+            while(j > start && input[--j] > input[start]);
+            if(j <= i) break;
+            swap(input, i, j);
+        }
+        swap(input, start, j);
+        return j;
+    }
+    private void swap(int[] input, int i ,int j) {
+        if(input == null || input.length < 2 || i == j) return;
+        int temp = input[i];
+        input[i] = input[j];
+        input[j] = temp;
+        for(Integer a:input) System.out.print(a + " ");
+        System.out.println();
+    }
+    public ArrayList<Integer> GetLeastNumbers_Solution2(int[] input, int k) {
+        if(k > input.length || k <= 0) return new ArrayList<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.comparing(o -> -o));
+        for(Integer i:input) {
+            maxHeap.add(i);
+            if(maxHeap.size() > k)
+                maxHeap.poll();
+        }
+        return new ArrayList<>(maxHeap);
     }
 }
 

@@ -12,7 +12,7 @@ public class Sort {
     private void partition(int[] input, int start, int end) {
         if(start >= end) return;
         int i = start + 1, j = end;
-        while(i < input.length && i <= j) {
+        while(i <= j) {
             if(input[i] < input[start]) {
                 i++;
             }

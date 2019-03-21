@@ -66,9 +66,13 @@ public class Main {
 //        System.out.println(solution.Serialize(solution.Deserialize(solution.Serialize(root))));
 //        System.out.println(solution.Deserialize("5,#,4,#,3,#,2,"));
 
-        int[] a = new int[]{1,2,3,2,2,2,5,4,2};
-        System.out.println(solution.MoreThanHalfNum_Solution(a));
+//        int[] a = new int[]{1,2,3,2,2,2,5,4,2};
+//        System.out.println(solution.MoreThanHalfNum_Solution(a));
 
+        int[] a = new int[]{1,5,7,2,9,3,1,8,6};
+        for(Integer i:a) System.out.print(i + " ");
+        System.out.println();
+        System.out.println(solution.GetLeastNumbers_Solution2(a, 5));
 
     }
 
