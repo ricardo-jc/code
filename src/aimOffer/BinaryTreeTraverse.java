@@ -2,23 +2,22 @@ package aimOffer;
 
 import aimOffer.structures.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTreeTraverse {
     //二叉树的遍历
     private ArrayList<Integer> vals = new ArrayList<>();
     //前序遍历
     //递归
-    public ArrayList<Integer> Preorder_recursion(TreeNode root) {
+    public ArrayList<Integer> preorder_recursion(TreeNode root) {
         if(root == null) return null;
         vals.add(root.val);
-        Preorder_recursion(root.left);
-        Preorder_recursion(root.right);
+        preorder_recursion(root.left);
+        preorder_recursion(root.right);
         return vals;
     }
     //迭代
-    public ArrayList<Integer> Preorder_iteration(TreeNode root) {
+    public ArrayList<Integer> preorder_iteration(TreeNode root) {
         if(root == null) return null;
         TreeNode p = root;
         Stack<TreeNode> pre = new Stack<>();
@@ -34,15 +33,15 @@ public class BinaryTreeTraverse {
     }
     //中序遍历
     //递归
-    public ArrayList<Integer> Inorder_recursion(TreeNode root) {
+    public ArrayList<Integer> inorder_recursion(TreeNode root) {
         if(root == null) return null;
-        Inorder_recursion(root.left);
+        inorder_recursion(root.left);
         vals.add(root.val);
-        Inorder_recursion(root.right);
+        inorder_recursion(root.right);
         return vals;
     }
     //迭代
-    public ArrayList<Integer> Inorder_iteration(TreeNode root) {
+    public ArrayList<Integer> inorder_iteration(TreeNode root) {
         if(root == null) return null;
         Stack<TreeNode> pre = new Stack<>();
         TreeNode p = root;
@@ -59,15 +58,15 @@ public class BinaryTreeTraverse {
     }
     //后续遍历
     //递归
-    public ArrayList<Integer> Postorder_recursion(TreeNode root) {
+    public ArrayList<Integer> postorder_recursion(TreeNode root) {
         if(root == null) return null;
-        Postorder_recursion(root.left);
-        Postorder_recursion(root.right);
+        postorder_recursion(root.left);
+        postorder_recursion(root.right);
         vals.add(root.val);
         return vals;
     }
     //迭代
-    public ArrayList<Integer> Postorder_iteration_1(TreeNode root) {
+    public ArrayList<Integer> postorder_iteration_1(TreeNode root) {
         if(root == null) return null;
         Stack<TreeNode> stack = new Stack<>();
         Stack<TreeNode> pre = new Stack<>();
@@ -84,7 +83,7 @@ public class BinaryTreeTraverse {
             vals.add(stack.pop().val);
         return vals;
     }
-    public ArrayList<Integer> Postorder_iteration_2(TreeNode root) {
+    public ArrayList<Integer> postorder_iteration_2(TreeNode root) {
         if(root == null) return null;
         TreeNode pre = root;
         Stack<TreeNode> stack = new Stack<>();
@@ -104,5 +103,36 @@ public class BinaryTreeTraverse {
             }
         }
         return vals;
+    }
+
+    //层序遍历
+    //迭代
+    public ArrayList<Integer> levelorder_iteration(TreeNode root) {
+        if(root == null) return null;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()) {
+            TreeNode p = queue.poll();
+            vals.add(p.val);
+            if(p.left != null){
+                queue.add(p.left);
+            }
+            if(p.right != null) {
+                queue.add(p.right);
+            }
+        }
+        return vals;
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(3);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(2);
+        root.right = new TreeNode(7);
+        root.right.left = new TreeNode(6);
+        root.right.right = new TreeNode(9);
+        BinaryTreeTraverse traverse = new BinaryTreeTraverse();
+        System.out.println(traverse.levelorder_iteration(root));
     }
 }
