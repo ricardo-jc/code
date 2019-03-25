@@ -896,7 +896,10 @@ public class Solution {
     }
     public ArrayList<Integer> GetLeastNumbers_Solution2(int[] input, int k) {
         if(k > input.length || k <= 0) return new ArrayList<>();
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.comparing(o -> -o));
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>
+                ((a, b) -> b - a);
+//                (Comparator.comparingInt(x -> -x));
+//                (Comparator.comparing(o -> -o));
         for(Integer i:input) {
             maxHeap.add(i);
             if(maxHeap.size() > k)
