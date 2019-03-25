@@ -1,5 +1,7 @@
 package aimOffer;
 
+import aimOffer.structures.*;
+
 import java.util.*;
 
 public class Solution {
@@ -731,7 +733,7 @@ public class Solution {
         return verify(sequence, first, cutIndex - 1) && verify(sequence, cutIndex, last - 1);
     }
 
-    ArrayList<ArrayList<Integer>> result_ = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> result_ = new ArrayList<>();
     ArrayList<Integer> array = new ArrayList<>();
     public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
         if(root == null) return result_;
@@ -814,53 +816,96 @@ public class Solution {
         return root;
     }
 
-    //二叉树的后续遍历
-    //递归
-    private ArrayList<Integer> vals = new ArrayList<>();
-    public ArrayList<Integer> Last(TreeNode root) {
-        if(root == null) return null;
-        Last(root.left);
-        Last(root.right);
-        vals.add(root.val);
-        return vals;
-    }
-    //迭代
-    public ArrayList<Integer> Last_iteration(TreeNode root) {
-        if(root == null) return null;
-        Stack<TreeNode> stack = new Stack<>();
-        Stack<TreeNode> pre = new Stack<>();
-        TreeNode p = root;
-        do {
-            while(p != null) {
-                stack.add(p);
-                pre.add(p);
-                p = p.right;
-            }
-            p = pre.pop().left;
-        }while(pre != null);
-
-        return null;
-    }
-
+    //字符串的排列
+    private ArrayList<String> permutation_res = new ArrayList<>();
     public ArrayList<String> Permutation(String str) {
-        int count = 0;
-        int index = 0;
-        ArrayList<String> result = new ArrayList<>();
-        boolean[] choiced = new boolean[str.length()];
-        char[] chars = new char[str.length()];
-        for(int i = 0; i < str.length(); i++) { //第i个位置
-            for(int j = 0; j < str.length(); j++) { //选第j个字母填充
-                if(!choiced[j]) { //该字母可用
-                    chars[i] = str.charAt(j);
-                    choiced[j] = true;
-                    break;
-                }
-            }
-        }
-        return null;
+        if(str == null || str.length() == 0) return permutation_res;
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        backtracking(chars, new boolean[str.length()], new StringBuilder());
+        return permutation_res;
     }
-    private ArrayList<String> add(String str, boolean[] choiced){
-        return null;
+    private void backtracking(char[] chars, boolean[] choiced, StringBuilder sb){
+        if(chars.length == sb.length()) {
+            permutation_res.add(sb.toString());
+            return;
+        }
+        for(int i = 0; i < chars.length - 1; i++) {
+            if(choiced[i]) continue;
+            if(i > 0 && chars[i] == chars[i - 1] && !choiced[i - 1]) continue;
+            sb.append(chars[i]);
+            choiced[i] = true;
+            backtracking(chars, choiced, sb);
+            sb.deleteCharAt(sb.length() - 1);
+            choiced[i] = false;
+        }
+    }
+
+    //数组中出现次数超过一半的数字
+    public int MoreThanHalfNum_Solution(int [] array) {
+        int n = array.length / 2;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(Integer a : array) {
+            if(!map.containsKey(a.hashCode()))
+                map.put(a.hashCode(), 1);
+            else map.put(a.hashCode(), map.get(a.hashCode()) + 1);
+            if(map.get(a.hashCode()) > n) return a;
+        }
+        return 0;
+    }
+
+    //最小的k个数
+    public ArrayList<Integer> GetLeastNumbers_Solution1(int[] input, int k) {
+        ArrayList<Integer> list = new ArrayList<>(k);
+        if(k > input.length || k <= 0) return list;
+        findKthSamllest(input, k);
+        for(int i = 0; i < k; i++) {
+                list.add(input[i]);
+        }
+        return list;
+    }
+    private void findKthSamllest(int[] input, int k) {
+        int start = 0;
+        int end = input.length - 1;
+        while(true) {
+            int n = partition(input, start, end);
+            if(n == k - 1) break;
+            if(n < k - 1) start = n + 1;
+            else end = n - 1;
+        }
+    }
+    private int partition(int[] input, int start, int end) {
+        int i = start;
+        int j = end + 1;
+        while(true) {
+            while(i < end && input[++i] < input[start]);
+            while(j > start && input[--j] > input[start]);
+            if(j <= i) break;
+            swap(input, i, j);
+        }
+        swap(input, start, j);
+        return j;
+    }
+    private void swap(int[] input, int i ,int j) {
+        if(input == null || input.length < 2 || i == j) return;
+        int temp = input[i];
+        input[i] = input[j];
+        input[j] = temp;
+        for(Integer a:input) System.out.print(a + " ");
+        System.out.println();
+    }
+    public ArrayList<Integer> GetLeastNumbers_Solution2(int[] input, int k) {
+        if(k > input.length || k <= 0) return new ArrayList<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>
+                ((a, b) -> b - a);
+//                (Comparator.comparingInt(x -> -x));
+//                (Comparator.comparing(o -> -o));
+        for(Integer i:input) {
+            maxHeap.add(i);
+            if(maxHeap.size() > k)
+                maxHeap.poll();
+        }
+        return new ArrayList<>(maxHeap);
     }
 }
 
