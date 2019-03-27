@@ -907,5 +907,67 @@ public class Solution {
         }
         return new ArrayList<>(maxHeap);
     }
+
+    //求数据流的中位数
+    private PriorityQueue<Integer> left = new PriorityQueue<>();
+    private PriorityQueue<Integer> right = new PriorityQueue<>(Comparator.comparing(x -> -x));
+    public void Insert(Integer num) {
+        if(right.size() == 0) right.offer(num);
+        else if(num < right.peek()) left.offer(num);
+        else right.offer(num);
+        if(right.size() >= left.size() + 2) left.offer(right.poll());
+        if(right.size() <= left.size() - 1) right.offer(left.poll());
+    }
+    public Double GetMedian() {
+        if(right.size() == left.size()) return (double)(right.peek() + left.peek()) / 2;
+        else return (double) right.peek();
+    }
+
+    //第一个只出现一次的字符
+    public int FirstNotRepeatingChar(String str) {
+        HashMap<Character, Integer> count = new HashMap<>();
+        char[] chars = str.toCharArray();
+        HashMap<Character, Integer> index = new LinkedHashMap<>();
+        for(int i = 0; i < chars.length; i++) {
+            if(!count.containsKey(chars[i])) {
+                count.put(chars[i], 1);
+                index.put(chars[i], i);
+            }
+            else {
+                count.put(chars[i], -1);
+                index.remove(chars[i]);
+            }
+        }
+        return index.size() > 0 ? index.entrySet().iterator().next().getValue() : -1;
+    }
+
+    //字节流中第一个不重复的字符
+    int[] input = new int[256];
+    ArrayList<Character> chars = new ArrayList<>();
+    public void Insert(char ch)
+    {
+        input[ch]++;
+        chars.add(ch);
+    }
+    public char FirstAppearingOnce()
+    {
+        for(Character c : chars) {
+            if(input[c] == 1) return c;
+        }
+        return '#';
+    }
+
+    //最大子序列和
+    public int FindGreatestSumOfSubArray(int[] array) {
+        int max = Integer.MIN_VALUE;
+        int sum = 0;
+        for(Integer i : array) {
+            if(sum <= 0) {
+                sum = i;
+            }else sum += i;
+            max = Math.max(sum, max);
+        }
+        return max;
+    }
 }
 

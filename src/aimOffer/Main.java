@@ -69,11 +69,16 @@ public class Main {
 //        int[] a = new int[]{1,2,3,2,2,2,5,4,2};
 //        System.out.println(solution.MoreThanHalfNum_Solution(a));
 
-        int[] a = new int[]{1,5,7,2,9,3,1,8,6};
-        for(Integer i:a) System.out.print(i + " ");
-        System.out.println();
-        System.out.println(solution.GetLeastNumbers_Solution2(a, 5));
+//        int[] a = new int[]{1,5,7,2,9,3,1,8,6};
+//        for(Integer i:a) System.out.print(i + " ");
+//        System.out.println();
+//        System.out.println(solution.GetLeastNumbers_Solution2(a, 5));
 
+//        String str = "googgle";
+//        System.out.println(solution.FirstNotRepeatingChar(str));
+
+        int[] array = new int[]{-1, -2, -5, -4};
+        System.out.println(solution.FindGreatestSumOfSubArray(array));
     }
 
 }
