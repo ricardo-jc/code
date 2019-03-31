@@ -969,5 +969,41 @@ public class Solution {
         }
         return max;
     }
+
+
+    public int maxSubList(int[] arr) {
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        boolean lower = true;
+        int pre = arr[index];
+        for (int i = index + 1; i < arr.length; i++) {
+            if (lower && pre > arr[i] || !lower && pre < arr[i]) {
+                if (sum <= 0) sum = arr[i];
+                else sum += arr[i];
+                max = Math.max(sum, max);
+                lower = !lower;
+            }
+        }
+        return max;
+    }
+
+
+
+//    public int numberOf1(int n) {
+//        int sum = 0;
+//        while(n != 0){
+//            sum++;
+//            n = n & (n - 1);
+//        }
+//        return sum;
+//    }
+//    public static void main(String[] args) {
+//        Scanner in = new Scanner(System.in);
+//        while (in.hasNextInt()) {
+//            int a = in.nextInt();
+//            Solution m = new Solution();
+//            System.out.println(m.numberOf1(a));
+//        }
+//    }
 }
 
