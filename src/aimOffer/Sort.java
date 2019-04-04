@@ -7,7 +7,7 @@ public class Sort {
     //快速排序
     public void quickSort(int[] input) {
         if(input == null || input.length <= 1) return;
-        partition(input, 0, input.length - 1);
+        partition2(input, 0, input.length - 1);
     }
     private void partition(int[] input, int start, int end) {
         if(start >= end) return;
@@ -27,6 +27,22 @@ public class Sort {
         swap(input, start, j);
         partition(input, start, j);
         partition(input, i, end);
+    }
+    //简洁写法
+    private void partition2(int[] input, int start, int end) {
+        if(start >= end) return;
+        int partition = input[start];
+        int i = start;
+        int j = end + 1;
+        while(true) {
+            while(i < end && input[++i] <= partition) ;
+            while(j > start && input[--j] >= partition) ;
+            if(i >= j) break;
+            swap(input, i, j);
+        }
+        swap(input, start, j);
+        partition2(input, start, j - 1);
+        partition2(input, i, end);
     }
 
     //冒泡排序
@@ -143,21 +159,21 @@ public class Sort {
         System.out.println();
     }
     public static void main(String[] args) {
-        int n = 7;
-        int[] a = new int[n];
-        for(int i = 0; i < n;i++) {
-            a[i] = (int) (Math.random() * 100);
-        }
-//        int[] a = new int[]{5, 3, 4, 7, 6, 2};
+//        int n = 5;
+//        int[] a = new int[n];
+//        for(int i = 0; i < n;i++) {
+//            a[i] = (int) (Math.random() * 100);
+//        }
+        int[] a = new int[]{5, 4, 3, 6, 2};
         for(Integer i : a) System.out.print(i + " ");
         System.out.println();
-//        new Sort().quickSort(a);
+        new Sort().quickSort(a);
 //        new Sort().bubbleSort(a);
 //        new Sort().insertionSort(a);
 //        new Sort().selectionSort(a);
 //        new Sort().mergeSort(a);
 //        new Sort().shellSort(a);
-        new Sort().heapSort(a);
+//        new Sort().heapSort(a);
     }
 
 }

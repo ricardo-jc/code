@@ -969,5 +969,134 @@ public class Solution {
         }
         return max;
     }
+
+    //Amazon Training 1_1
+    class TreeInfo{
+        TreeNode node;
+        double average;
+        int nums;
+        TreeInfo () {
+            this.node = null;
+            this.average = 0.0;
+            this.nums = 0;
+        }
+        TreeInfo (TreeNode node, double average, int nums) {
+            this.node = node;
+            this.average = average;
+            this.nums = nums;
+        }
+    }
+    private TreeInfo cal (TreeNode root) {
+        if(root == null) return new TreeInfo();
+        TreeInfo left = new TreeInfo();
+        TreeInfo right = new TreeInfo();
+        if(root.left != null) left = cal(root.left);
+        if(root.right != null) right = cal(root.right);
+        double total = root.val + left.average * left.nums + right.average * right.nums;
+        int nums = 1 + left.nums + right.nums;
+        double average = total / nums;
+        if(average > max){
+            max = average;
+            maxNode = root;
+        }
+        return new TreeInfo(root, average, nums);
+    }
+    private double max = -Double.MAX_VALUE;
+    private TreeNode maxNode;
+    public TreeNode findSubtree2(TreeNode root) {
+        // write your code here
+        cal(root);
+        return maxNode;
+    }
+
+    //Amazon Training 2_1
+    public String[] logSort(String[] logs) {
+        // Write your code here
+        List<Log> log1 = new ArrayList<>();
+        List<Log> log2 = new LinkedList<>();
+        for(String log:logs) {
+            Log newLog = new Log();
+            newLog.id = log.substring(0, log.indexOf(" "));
+            newLog.content = log.substring(log.indexOf(" ") +  1);
+            if(newLog.getType() == 1) log1.add(newLog);
+            else log2.add(newLog);
+        }
+        Collections.sort(log1);
+        String[] res = new String[log1.size() + log2.size()];
+        int i = 0;
+        for( ; i < log1.size(); i ++) {
+            res[i] = log1.get(i).toString();
+        }
+        for( ; i < log1.size() + log1.size(); i++){
+            res[i] = log2.get(i - log1.size()).toString();
+        }
+        return res;
+    }
+    class Log implements Comparable<Log>{
+        String id;
+        String content;
+        private int type = 0;
+        int getType() {
+            if(type == 0) {
+                for(Character c:content.toCharArray()) {
+                    if(c >= 'A' && c <= 'z') return type = 1;
+                    if(c >= '0' && c <= '9') return type = 2;
+                }
+                return type;
+            }
+            else return type;
+        }
+        @Override
+        public int compareTo(Log o){
+            if(this.content.compareTo(o.content) == 0)
+                return this.id.compareTo(o.id);
+            else return this.content.compareTo(o.content);
+        }
+        @Override
+        public String toString() {
+            return this.id + " " + this.content;
+        }
+    }
+
+    //Amazon Training 2_2
+    public int twoSumClosest(int[] nums, int target) {
+        // write your code here
+        Arrays.sort(nums);
+        int diff = Integer.MAX_VALUE;
+        int head = 0;
+        int tail = nums.length - 1;
+        while(head < tail) {
+            int abs = Math.abs(nums[head] + nums[tail] - target);
+            diff = Math.min(abs, diff);
+            if(nums[head] + nums[tail] < target) head++;
+            else tail--;
+        }
+        return diff;
+    }
+
+    //Amazon Training 2_3
+    public String longestPalindrome(String s) {
+        // write your code here
+        return null;
+    }
+
+    //判断回文
+    public boolean palindrome_recursion(String input) {
+        if(input.length() < 2) return true;
+        else return input.charAt(0) == input.charAt(input.length() - 1) &&
+                palindrome_recursion(input.substring(1, input.length() - 1));
+    }
+    public boolean palindrome_iteration(String input) {
+        if(input.length() < 2) return true;
+        int i = 0;
+        int j = input.length() - 1;
+        while(i < j) {
+            if(input.charAt(i) == input.charAt(j)) {
+                i++;j--;
+            }
+            else return false;
+        }
+        return true;
+    }
 }
 

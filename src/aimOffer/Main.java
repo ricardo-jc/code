@@ -1,6 +1,10 @@
 package aimOffer;
 
+import aimOffer.structures.TreeNode;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Main {
 
@@ -77,8 +81,13 @@ public class Main {
 //        String str = "googgle";
 //        System.out.println(solution.FirstNotRepeatingChar(str));
 
-        int[] array = new int[]{-1, -2, -5, -4};
-        System.out.println(solution.FindGreatestSumOfSubArray(array));
+//        int[] array = new int[]{-1, -2, -5, -4};
+//        System.out.println(solution.FindGreatestSumOfSubArray(array));
+//        int[] array = new int[]{-1, 2, 1, -4};
+//        System.out.println(solution.twoSumClosest(array, 4));
+
+        String input = "abcdxadcba";
+        System.out.println(solution.palindrome_iteration(input));
     }
 
 }
