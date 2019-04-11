@@ -1134,5 +1134,71 @@ public class Solution {
         }
         return true;
     }
+
+    //Amazon Training 3_1
+    public int KSubstring(String stringIn, int K) {
+        // Write your code here
+        HashSet<String> subStrings = new HashSet<>();
+        HashMap<Character, Integer> map = new HashMap<>(K);
+        char[] input = stringIn.toCharArray();
+        for(int i = 0; i < input.length; i++) {
+            map.clear();
+            int start = i;
+            int j;
+            for(j = start; j < i + K && j < input.length; j++) {
+                Integer offset = map.get(input[j]);
+                if(offset != null) {
+                    i = offset;
+                    break;
+                }
+                else {
+                    map.put(input[j], j);
+                }
+            }
+            if(map.size() == K) {
+                subStrings.add(stringIn.substring(i, j + 1));
+            }
+        }
+        return subStrings.size();
+    }
+
+    //Amazon Training 3_2
+    public String frequentWord(String s, Set<String> excludewords) {
+        // Write your code here
+        String[] words = s.replace(',', ' ').split(" ");
+        HashMap<String, Integer> map = new HashMap<>();
+        for(String word:words) {
+            if(excludewords.contains(word) || word.length() == 0) continue;
+            Integer num;
+            if((num = map.get(word)) != null) {
+                map.put(word, num + 1);
+            }
+            else map.put(word, 1);
+        }
+        int max = Integer.MIN_VALUE;
+        String res = "";
+        for(String str:map.keySet()) {
+            if(max < map.get(str)) {
+                res = str;
+                max = map.get(str);
+            }
+            if(max == map.get(str)) {
+                if(res.compareTo(str) > 0) res = str;
+            }
+        }
+        return res;
+    }
+
+    //Amazon Training 3_3
+    class Point {
+        int x;
+        int y;
+        Point() { x = 0;y = 0; }
+        Point(int a, int b) { x = a;y = b; }
+    }
+    public Point[] kClosest(Point[] points, Point origin, int k) {
+        // write your code here
+        return null;
+    }
 }
 

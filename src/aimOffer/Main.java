@@ -86,8 +86,8 @@ public class Main {
 //        int[] array = new int[]{-1, 2, 1, -4};
 //        System.out.println(solution.twoSumClosest(array, 4));
 
-        String input = "abcdxadcba";
-        System.out.println(solution.palindrome_iteration(input));
+        String input = "aaabbaabb";
+        System.out.println(solution.KSubstring(input, 2));
     }
 
 }
