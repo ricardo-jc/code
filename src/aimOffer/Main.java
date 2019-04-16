@@ -1,13 +1,13 @@
 package aimOffer;
 
-import aimOffer.structures.TreeNode;
+import aimOffer.structures.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class Main {
 
+    static private final Logger log = Logger.getLogger("");
     public static void main(String[] args) {
         Solution solution = new Solution();
 //        System.out.println(solution.replaceSpace(new StringBuffer("We Are Happy")));
@@ -86,8 +86,23 @@ public class Main {
 //        int[] array = new int[]{-1, 2, 1, -4};
 //        System.out.println(solution.twoSumClosest(array, 4));
 
-        String input = "aaabbaabb";
-        System.out.println(solution.KSubstring(input, 2));
+//        String input = "aaabbaabb";
+//        System.out.println(solution.KSubstring(input, 2));
+
+        boolean[][] g = {
+                {false,	false,	false,	false,	true,	true},
+                {true,	false,	true,	false,	false,	true},
+                {false,	false,	true,	false,	false,	true},
+                {false,	false,	true,	true,	false,	true},
+                {true,	false,	true,	false,	false,	true},
+                {false,	false,	true,	false,	false,	true},
+                {false,	false,	true,	false,	false,	true},
+                {false,	false,	true,	false,	false,	true}
+        };
+//        g[0][1] = true;
+        Point a = new Point(0, 0);
+        Point b = new Point(0, 7);
+        System.out.println(solution.shortestPath(g,a,b));
     }
 
 }

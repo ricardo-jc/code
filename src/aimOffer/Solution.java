@@ -1190,15 +1190,136 @@ public class Solution {
     }
 
     //Amazon Training 3_3
+    /*
     class Point {
         int x;
         int y;
         Point() { x = 0;y = 0; }
         Point(int a, int b) { x = a;y = b; }
     }
+    */
+    private double distance(Point p1, Point p2) {
+        return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+    }
     public Point[] kClosest(Point[] points, Point origin, int k) {
         // write your code here
-        return null;
+        PriorityQueue<Point> kClosest = new PriorityQueue<>(k,
+                (Point p1, Point p2) -> {
+            double d1 = distance(p1, origin);
+            double d2 = distance(p2, origin);
+            if(d1 == d2) return p1.x == p2.x ? p2.y - p1.y : p2.x - p1.x;
+            else if(d1 > d2) return -1;
+            else return 1;
+        });
+        for(Point p:points){
+            if(kClosest.size() < k)
+                kClosest.offer(p);
+            else if(kClosest.size() == k &&
+                    distance(p, origin) <= distance(kClosest.peek(), origin)) {
+                kClosest.offer(p);
+                kClosest.poll();
+            }
+        }
+        Point[] res = new Point[k];
+        for(int i = k - 1; i >= 0; i--) {
+            res[i] = kClosest.poll();
+        }
+        return res;
+    }
+
+    //Amazon Training 3_4
+    public int shortestPath(boolean[][] grid, Point source, Point destination) {
+        // write your code here
+        int steps = 0;
+        boolean[][] checked = new boolean[grid.length][grid[0].length];
+        checked[source.x][source.y] = true;
+        Queue<Point> nextSteps = new LinkedList<>();
+        nextSteps.offer(source);
+
+        int[] move_x = new int[]{1, 1, -1, -1, 2, 2, -2, -2};
+        int[] move_y = new int[]{2, -2, 2, -2, 1, -1, 1, -1};
+        while(nextSteps.size() > 0) {
+            int size = nextSteps.size();
+            for(int n = 0; n < size; n++) {
+                Point cur = nextSteps.poll();
+                for(int i = 0; i < 8; i++) {
+                    Point next = new Point(cur.x + move_x[i], cur.y + move_y[i]);
+                    if(!inBoundary(grid, next)) continue;
+                    if(!blocked(grid, cur, next) && !checked[next.x][next.y]) {
+                        if(next.x == destination.x && next.y == destination.y) return steps + 1;
+                        else {
+                            checked[next.x][next.y] = true;
+                            nextSteps.offer(next);
+                        }
+                    }
+                }
+            }
+            steps++;
+        }
+        return -1;
+    }
+    private boolean inBoundary(boolean[][] grid, Point p){
+        if(grid.length == 0) return false;
+        return p.x >= 0 && p.x < grid.length && p.y >= 0 && p.y < grid[0].length;
+    }
+    private boolean blocked(boolean[][] grid, Point cur, Point next) {
+        if(grid[next.x][next.y]) return true;
+        if(Math.abs(next.x - cur.x) == 2)
+            return grid[(next.x + cur.x) / 2][(next.y + cur.y) / 2 + 1] &&
+                    grid[(next.x + cur.x) / 2][(next.y + cur.y) / 2];
+        if(Math.abs(next.y - cur.y) == 2)
+            return grid[(next.x + cur.x) / 2 + 1][(next.y + cur.y) / 2] &&
+                    grid[(next.x + cur.x) / 2][(next.y + cur.y) / 2];
+        return false;
+    }
+
+    //Amazon Training Jan 1_1
+    public int getAns(String s, int k) {
+        // Write your code here
+        int n = 0;
+        char pre = s.charAt(0);
+        int length = 1;
+        for(int i = 1; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if(pre == c) {
+                if(++length > k) {
+                    length = 1;
+                    n++;
+                }
+            }
+            else {
+                length = 1;
+                n++;
+                pre = c;
+            }
+        }
+        return n;
+    }
+
+    //Amazon Training Jan 1_3
+    public List<List<Integer>> nearestRestaurant(List<List<Integer>> restaurant, int n) {
+        // Write your code here
+        List<List<Integer>> ans = new ArrayList<>();
+        PriorityQueue<List<Integer>> queue = new PriorityQueue<>(n, (List<Integer> l1, List<Integer> l2) -> {
+            double diff = Math.pow(l1.get(0), 2) + Math.pow(l1.get(1), 2) - Math.pow(l2.get(0), 2) - Math.pow(l2.get(1), 2);
+            return -Double.compare(diff, 0);
+        });
+        for(List<Integer> res:restaurant) {
+            if(queue.size() < n) {
+                queue.offer(res);
+                ans.add(res);
+            }
+            else {
+                List<Integer> peek = queue.peek();
+                if(Math.pow(res.get(0), 2) + Math.pow(res.get(1), 2) - Math.pow(peek.get(0), 2) - Math.pow(peek.get(1), 2) < 0){
+                    ans.remove(queue.poll());
+                    queue.offer(res);
+                    ans.add(res);
+                }
+            }
+        }
+        if(queue.size() < n) return new ArrayList<>();
+        return ans;
     }
 }
 
