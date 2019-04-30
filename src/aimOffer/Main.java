@@ -89,20 +89,23 @@ public class Main {
 //        String input = "aaabbaabb";
 //        System.out.println(solution.KSubstring(input, 2));
 
-        boolean[][] g = {
-                {false,	false,	false,	false,	true,	true},
-                {true,	false,	true,	false,	false,	true},
-                {false,	false,	true,	false,	false,	true},
-                {false,	false,	true,	true,	false,	true},
-                {true,	false,	true,	false,	false,	true},
-                {false,	false,	true,	false,	false,	true},
-                {false,	false,	true,	false,	false,	true},
-                {false,	false,	true,	false,	false,	true}
-        };
-//        g[0][1] = true;
-        Point a = new Point(0, 0);
-        Point b = new Point(0, 7);
-        System.out.println(solution.shortestPath(g,a,b));
+//        boolean[][] g = {
+//                {false,	false,	false,	false,	true,	true},
+//                {true,	false,	true,	false,	false,	true},
+//                {false,	false,	true,	false,	false,	true},
+//                {false,	false,	true,	true,	false,	true},
+//                {true,	false,	true,	false,	false,	true},
+//                {false,	false,	true,	false,	false,	true},
+//                {false,	false,	true,	false,	false,	true},
+//                {false,	false,	true,	false,	false,	true}
+//        };
+////        g[0][1] = true;
+//        Point a = new Point(0, 0);
+//        Point b = new Point(0, 7);
+//        System.out.println(solution.shortestPath(g,a,b));
+        int[][] board = new int[][]{{2,8,3},{1,0,4},{7, 6, 5}};
+        int[][] f = new int[][]{{1, 2, 3}, {8, 0, 4}, {7, 6, 5}};
+        System.out.print(solution.minMoveStep(board, f));
     }
 
 }

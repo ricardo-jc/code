@@ -1321,5 +1321,162 @@ public class Solution {
         if(queue.size() < n) return new ArrayList<>();
         return ans;
     }
+
+    //Google Training Feb 1_1
+    public int getLength(int[] arr) {
+        // Write your code here.
+        int length = Integer.MAX_VALUE;
+        HashMap<Integer, Integer> subString = new HashMap<>();
+        int j;
+        for (j = 0; j < arr.length; j++) {
+            Integer index = subString.get(arr[j]);
+            if (index != null) {
+                length = j - index + 1 < length ? j - index + 1 : length;
+            }
+            subString.put(arr[j], j);
+        }
+        if(subString.size() == arr.length) return -1;
+        return length;
+    }
+
+    //Google Training Feb 1_2
+    public int numUniqueEmails(String[] emails) {
+        // write your code here
+        HashSet<String> address = new HashSet<>();
+        for(String email:emails) {
+            String[] names = email.split("@");
+            String localName = names[0].split("\\+")[0].replaceAll("\\.", "");
+            String domainName = names[1];
+            String add = localName + "@" + domainName;
+            address.add(add);
+        }
+        return address.size();
+    }
+
+    //Airbnb Training Mar 1_1 LintCode392
+    public long houseRobber(int[] A) {
+        // write your code here
+        if(A.length == 0) return 0;
+        if(A.length == 1) return A[0];
+        long[] dp = new long[A.length];
+        dp[0] = A[0];
+        dp[1] = Math.max(dp[0], A[1]);
+        for(int i = 2; i < A.length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + A[i]);
+        }
+        return dp[A.length - 1];
+    }
+
+    //Airbnb Training Mar 1_2 LintCode534
+    public int houseRobber2(int[] nums) {
+        // write your code here
+        if(nums.length == 0) return 0;
+        if(nums.length == 1) return nums[0];
+        int[][] dp = new int[2][nums.length];
+        dp[0][0] = nums[0];
+        dp[1][0] = 0;
+        dp[0][1] = Math.max(dp[0][0], nums[1]);
+        dp[1][1] = Math.max(dp[1][0], nums[1]);
+        for(int i = 2; i < nums.length; i++) {
+            dp[0][i] = Math.max(dp[0][i - 1], dp[0][i - 2] + nums[i]);
+            dp[1][i] = Math.max(dp[1][i - 1], dp[1][i - 2] + nums[i]);
+        }
+        return Math.max(dp[0][nums.length - 2], dp[1][nums.length - 1]);
+    }
+
+    //Airbnb Training Mar 1_3 LintCode535
+    public int houseRobber3(TreeNode root) {
+        // write your code here
+        Info res = postOrder(root);
+        return Math.max(res.with, res.without);
+    }
+    private class Info{
+        int with;
+        int without;
+        Info(int a, int b){
+            with = a;
+            without = b;
+        }
+    }
+    private Info postOrder(TreeNode root) {
+        if(root == null) return new Info(0, 0);
+        Info left = postOrder(root.left);
+        Info right = postOrder(root.right);
+        int with = left.without + right.without + root.val;
+        int without = left.with + right.with;
+        return new Info(Math.max(with, without), without);
+    }
+
+    //Airbnb Training Mar 2_1 LintCode941 BFS
+    public int minMoveStep(int[][] init_state, int[][] final_state){
+        // write your code here
+        String s = toString(init_state);
+        String f = toString(final_state);
+        HashMap<String, Integer> map = new HashMap<>();
+        Queue<String> queue = new PriorityQueue<>(
+                Comparator.comparingInt(str -> Math.abs(inverseNum(str) - inverseNum(f))));
+        int steps = 0;
+        if(check(s, f)) return steps;
+        if(inverseNum(s) % 2 != inverseNum(f) % 2) return -1;
+        map.put(s, 0);
+        queue.offer(s);
+        while(!queue.isEmpty()) {
+                s = queue.poll();
+                for(int i = 1; i < 5; i++) {
+                    String newBoard = move(s, i);
+                    if(newBoard != null && !map.containsKey(newBoard)
+//                            && inverseNum(newBoard) < inverseNum(s)
+                    ) {
+                        if(check(newBoard, f)) return map.get(s) + 1;
+                        else {
+                            map.put(newBoard, map.get(s) + 1);
+                            queue.offer(newBoard);
+                        }
+                    }
+                }
+        }
+        return -1;
+    }
+    private boolean check(String board ,String final_state) {
+        return final_state.equals(board);
+    }
+    private String toString(int[][] board) {
+        StringBuilder sb = new StringBuilder();
+        for(int[] b:board)
+            for (int i:b)
+                sb.append(i);
+        return sb.toString();
+    }
+    private String move(String input, int mode) {
+        int index = input.indexOf('0');
+        switch(mode) {
+            case 1 : if(index % 3 > 0) return swap(input, index, index - 1);
+            case 2 : if(index % 3 < 2) return swap(input, index, index + 1);
+            case 3 : if(index + 3 <= 8) return swap(input, index, index + 3);
+            case 4 : if(index - 3 >= 0) return swap(input, index, index - 3);
+        }
+        return null;
+    }
+    private String swap(String str, int oldIndex, int newIndex) {
+        char c = str.charAt(newIndex);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < str.length(); i++) {
+            if(i == newIndex) sb.append('0');
+            else if(i == oldIndex) sb.append(c);
+            else sb.append(str.charAt(i));
+        }
+        return sb.toString();
+    }
+    private static int inverseNum(String input){
+        String board = input.replace("0","");
+        int inverseNum = 0;
+        for(int i = 0; i < board.length(); i++) {
+            for(int j = i + 1; j < board.length(); j++) {
+                if(board.charAt(j) < board.charAt(i)) inverseNum++;
+            }
+        }
+        return inverseNum;
+    }
+
 }
 
