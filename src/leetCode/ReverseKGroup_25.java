@@ -3,7 +3,7 @@ package leetCode;
 import aimOffer.structures.ListNode;
 
 //25 https://leetcode.com/problems/reverse-nodes-in-k-group/
-public class ReverseKGroup {
+public class ReverseKGroup_25 {
     public ListNode reverseKGroup(ListNode head, int k) {
         if(head == null || head.next == null) return head;
         ListNode pre = head;
@@ -32,7 +32,7 @@ public class ReverseKGroup {
         head.next.next.next.next = new ListNode(5);
         head.next.next.next.next.next = new ListNode(6);
         head.next.next.next.next.next.next = new ListNode(7);
-        ReverseKGroup reverseKGroup = new ReverseKGroup();
+        ReverseKGroup_25 reverseKGroup = new ReverseKGroup_25();
         System.out.println(reverseKGroup.reverseKGroup(head, 3));
     }
 }
